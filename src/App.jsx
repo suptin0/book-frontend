@@ -5,7 +5,7 @@ const App = () => {
   const [books, setBooks] = useState([]);
   const [newBook, setNewBook] = useState({ title: '', author: '', image_url: ''});
   const [editBook, setEditBook] = useState(null);
-  const uri = 'https://scaling-parakeet-5gv9p6vpv6c4977-5001.app.github.dev/'
+  const uri = 'https://fuzzy-spoon-wrv4w4xvj469hv4x5-5001.app.github.dev/'
   useEffect(() => {
     fetchBooks();
   }, []);
@@ -26,9 +26,14 @@ const App = () => {
     } else {
       setNewBook({ ...newBook, [name]: value });
     }
+
   };
 
   const handleCreateBook = async () => {
+    if(!newBook.title||!newBook.author ||!newBook.image_url){
+      alert("All from cannot be blank");
+      return;
+    }
     try {
       const response = await axios.post(`${uri}/books`, newBook);
       setBooks([...books, response.data]);
@@ -43,6 +48,10 @@ const App = () => {
   };
 
   const handleUpdateBook = async () => {
+    if(!newBook.title||!newBook.author ||!newBook.image_url){
+      alert("All from cannot be blank");
+      return;
+    }
     try {
       const response = await axios.put(`${uri}/books/${editBook.id}`, editBook);
       const updatedBooks = books.map((book) =>
